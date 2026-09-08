@@ -1,15 +1,7 @@
 from fastapi import FastAPI
+from langchain_core.messages import SystemMessage, HumanMessage
 from pydantic import BaseModel
 
-'''
-    1.一个简单的fastapi + langchain 调用 model 
-    2.项目启动:
-        1.pip install uvicorn
-        2.进入项目根目录
-        3.uvicorn chatTest:app --reload
-        4.swagger: /docs
-        5.FastAPI 是 Web 框架, Uvicorn 才是真正跑服务的服务器
-'''
 
 '''
     接入大模型部分
@@ -31,6 +23,17 @@ model = init_chat_model(
     temperature=0.7
 )
 
+SYSTEM_PROMPT = """
+            你是好课来教育平台的 AI 客服助手。
+            
+            你的职责: 帮助用户解决与好课来平台有关的问题
+            
+            规则:
+            1.不得编造平台业务信息
+            2.不知道的消息明确告诉用户无法确认
+            3.只处理好课来平台相关问题
+            4.使用中文简洁回答
+        """
 
 '''
     fastapi请求部分
@@ -44,9 +47,12 @@ class ChatResult(BaseModel):
 class ChatRequest(BaseModel):
     message: str
 
-@app.post("/sayHello")
-def say_hello(request: ChatRequest, response_model=ChatResult):
-    response = model.invoke(request.message)
+@app.post("/", response_model=ChatResult)
+def test(request: ChatRequest):
+    messages.append(HumanMessage(content=request.message))
+    response = model.invoke(messages)
+
+
     return ChatResult(
         message=str(response.content),
         code=200
