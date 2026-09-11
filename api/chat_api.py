@@ -7,13 +7,13 @@ from service.chat_service import chat
 
 
 router = APIRouter(
-    prefix="/api/chat",
+    prefix="/api/ai/chat",
     tags=["AI客服"]
 )
 
 @router.post("", response_model=ChatResult)
 async def chat_api(request: ChatRequest):
-
+    print("--------已进入接口---------")
     conversation_id = request.conversation_id
     if conversation_id is None:
         conversation_id = str(uuid.uuid4())
