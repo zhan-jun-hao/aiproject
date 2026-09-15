@@ -6,7 +6,7 @@ from config.settings import (
 )
 
 embedding_model = OpenAIEmbeddings(
-    model="text-embedding-v4",
+    model="qwen3.7-text-embedding-flash",
     api_key=ALIYUN_BAI_LIAN,
     base_url=ALIYUN_API_BASE,
     check_embedding_ctx_length=False,

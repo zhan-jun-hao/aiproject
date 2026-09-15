@@ -1,9 +1,26 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from schema.agent_output_schema import (
+    OrderCard,
+    CourseCard
+)
+
 
 class ChatResult(BaseModel):
-    message: str
+
     code: int
+
     conversation_id: str
+
+    message: str
+
+    order: OrderCard | None = None
+
+    course: CourseCard | None = None
+
+    suggestions: list[str] = Field(
+        default_factory=list
+    )
 
 class ChatRequest(BaseModel):
     message: str

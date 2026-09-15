@@ -24,7 +24,11 @@ async def chat_api(request: ChatRequest):
     )
 
     return ChatResult(
-        message=result,
         code=200,
-        conversation_id=conversation_id
+        conversation_id=conversation_id,
+
+        message=result.message,
+        order=result.order,
+        course=result.course,
+        suggestions=result.suggestions
     )
